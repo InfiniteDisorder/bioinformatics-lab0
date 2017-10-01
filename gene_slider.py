@@ -17,7 +17,6 @@ class Vertex:
         self.j = j
         self.edges = []
         self.path_length = 0
-        self.path =  []
         self.visited = False
 
     def add_edge(self, e):
@@ -42,6 +41,7 @@ class Graph:
         while i < len(A):
             j = 0
             while j < len(B):
+                self.vertices[(i, j)].path = [self.vertices[(0, 0)]]
                 if (i < len(A) - 1):
                     self.vertices[(i, j)].add_edge(Edge(self.vertices[(i + 1, j)], match_points(A[i], B[j])))
                     if (j < len(B) - 1):
@@ -49,7 +49,7 @@ class Graph:
                 j += 1
             i += 1    
 
-    def shortest_path(self):
+    def dijkstra_path(self):
         not_visited = [x for x in self.vertices.values() if x.visited == False] 
         a = self.vertices[(0,0)]
         a.path_length = 0.0
@@ -63,23 +63,41 @@ class Graph:
                 if not u.visited:
                     if u.path_length > v.path_length + e.weigth:
                         u.path_length = v.path_length + e.weigth
-                        print(v.path, v.i, v.j)
                         u.path = v.path[:]
                         u.path.append(u)
 
-    def print_paths(self):
-        v = self.vertices[len(self.A) - 1, len(self.B) - 1]
-        print(v.path_length)
+    def shortest_path(self):
+        path = [] 
+        gapped_path = []
+        ends = [x for x in self.vertices.values() if x.i == len(self.A) - 1]
+        v = min(ends,key = lambda x: x.path_length)
         for i in v.path:
-            print(v.i, v.j, self.A[v.i], self.B[v.j])
+            path.append((i.i, i.j,self.A[i.i], self.B[i.j]))
+        last_index = -1   
+        path.reverse()
+        for j in path:
+            if j[1] == last_index:
+                gapped_path.append((j[0], j[1], self.A[j[0]], '-'))
+            else:
+                gapped_path.append(j) 
+            last_index = j[1]    
+        gapped_path.reverse()     
+        return gapped_path       
+
+def print_nucleotide_seq(path):
+    for i in path:
+        print(i[2], i[3])
 
 
 a = 'CCTGCTGCAGGATGTGCCG'
 b = 'GATGTGCAGCCTGTAGG' 
 
 G = Graph(a, b)
-G.shortest_path()
-G.print_paths()
+G.dijkstra_path()
+path = G.shortest_path()
+print_nucleotide_seq(path)
+
+
 
 
 
