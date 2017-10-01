@@ -43,9 +43,9 @@ class Graph:
             while j < len(B):
                 self.vertices[(i, j)].path = [self.vertices[(0, 0)]]
                 if (i < len(A) - 1):
-                    self.vertices[(i, j)].add_edge(Edge(self.vertices[(i + 1, j)], match_points(A[i], B[j])))
+                    self.vertices[(i, j)].add_edge(Edge(self.vertices[(i + 1, j)], match_points(A[i + 1], B[j]) + 1))
                     if (j < len(B) - 1):
-                        self.vertices[(i, j)].add_edge(Edge(self.vertices[(i + 1, j + 1)], match_points(A[i], B[j])))       
+                        self.vertices[(i, j)].add_edge(Edge(self.vertices[(i + 1, j + 1)], match_points(A[i + 1], B[j + 1])))       
                 j += 1
             i += 1    
 
@@ -85,8 +85,15 @@ class Graph:
         return gapped_path       
 
 def print_nucleotide_seq(path):
+    matches = 0
     for i in path:
         print(i[2], i[3])
+        if i[2] == i[3]:
+            matches += 1
+
+    print('Total macthes: ', matches, 'from: ', len(path))        
+
+
 
 
 a = 'CCTGCTGCAGGATGTGCCG'
