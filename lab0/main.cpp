@@ -82,9 +82,6 @@ int maximum(struct Point **V, int k, int m) {
     return max;
 }
 
-//DAVID SANKOFF:
-// http://www.pnas.org/content/69/1/4.full.pdf
-
 int main() {
     chrono::milliseconds start = chrono::duration_cast< chrono::milliseconds >(
             chrono::system_clock::now().time_since_epoch()
