@@ -5,10 +5,10 @@
 
 using namespace std;
 
-string const A = "CCTGCTGCAGGATGTGCCG";
-string const B = "GATGTGCAGCCTGTAGG";
+//string const A = "CCTGCTGCAGGATGTGCCG";
+//string const B = "GATGTGCAGCCTGTAGG";
 
-/*string const A = "ATGAGCACTGCGGGAAAAGTGATCAAATGCAAAGCTGCGGTGCTATGGGAGCTTCACAAACCCTTCACCATCGAGG"
+string const A = "ATGAGCACTGCGGGAAAAGTGATCAAATGCAAAGCTGCGGTGCTATGGGAGCTTCACAAACCCTTCACCATCGAGG"
         "ACATAGAAGTCGCACCCCCCAAGGCCCATGAAGTTCGAATTAAGATGGTGGCCACTGGTGTCTGCCGCTCAGACGA"
         "TCACGTGGTTAGTGGAACCCTGGTCACACCTCTTCCTGCAGTTTTAGGCCATGAGGGAGCAGGCATTGTTGAGAGC"
         "GTTGGAGAAGGGGTGACTTGTGTGAAACCAGGTGATAAAGTCATTCCACTCTTTTCCCCTCAGTGTGGAGAATGCA"
@@ -38,7 +38,10 @@ string const B = "ATGAGCACAGCAGGAAAAGTAATCAAATGCAAAGCAGCTGTGCTATGGGAGTTAAAGAAACC
         "CCTGTTATGTTGTCATGAGGCATGTGGCACAAGTGTCATCGTAGGGGTACCTCCTGATTCCCAAAACCTCTCAATG"
         "AACCCTATGCTGCTACTGACTGGACGTACCTGGAAGGGAGCTATTCTTGGTGGCTTTAAAAGTAAAGAATGTGTCC"
         "CAAAACTTGTGGCTGATTTTATGGCTAAGAAGTTTTCATTGGATGCATTAATAACCCATGTTTTACCTTTTGAAAA"
-        "AATAAATGAAGGATTTGACCTGCTTCACTCTGGGAAAAGTATCCGTACCATTCTGATGTTTTGA";*/
+        "AATAAATGAAGGATTTGACCTGCTTCACTCTGGGAAAAGTATCCGTACCATTCTGATGTTTTGA";
+
+int const coefA = A.length()*0.03 > 10 ? A.length()*0.03 : A.length();
+int const coefB = B.length()*0.03 > 10 ? B.length()*0.03 : B.length();
 
 struct Point {
     int i;
@@ -55,7 +58,7 @@ int maximum(struct Point **V, int k, int m) {
     int max_i = 0;
     int max_j = 0;
 
-    for(int i=0; i<=k; i++) {
+    for(auto i=k-coefA > 0? k-coefA : 0; i<=k; i++) {
         if (V[i][m].val > max) {
             max = V[i][m].val;
             max_i = i;
@@ -63,7 +66,7 @@ int maximum(struct Point **V, int k, int m) {
         }
     }
 
-    for(int j=0; j<=m; j++) {
+    for(auto j=m-coefB > 0? m-coefB : 0; j<=m; j++) {
         if (V[k][j].val > max) {
             max = V[k][j].val;
             max_i = k;
